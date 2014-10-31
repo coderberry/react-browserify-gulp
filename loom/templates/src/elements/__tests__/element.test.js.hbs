@@ -1,0 +1,11 @@
+var React = require('react')
+  , makeStubbedDescriptor = require('../../__tests__/makeStubbedDescriptor')
+  , {{name}} = require('../{{name}}');
+
+describe('{{name}}', function() {
+  it('renders', function(done) {
+    var app = React.render(makeStubbedDescriptor({{name}}, {}), document.createElement('div'));
+    assert(app.getDOMNode().querySelectorAll('.{{name}}').length === 1, 'The element rendered');
+    done();
+  });
+});
