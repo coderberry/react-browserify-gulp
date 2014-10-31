@@ -11,7 +11,7 @@ var App = React.createClass({
           <li><Link to="foo">Foo</Link></li>
           <li><Link to="bar">Bar</Link></li>
         </ul>
-        <this.props.activeRouteHandler/>
+        {this.props.activeRouteHandler()}
       </div>
     )
   }

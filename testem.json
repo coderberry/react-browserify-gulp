@@ -1,11 +1,11 @@
 {
     "framework": "mocha",
-    "serve_files": [ "browserified.js" ],
-    "src_files": [
-        "./src/*.js",
-        "./src/elements/*.js"
+    "serve_files": [ 
+      "./dist/assets/tests.js"
     ],
-    "before_tests": "browserify src/__tests__/main.js -o browserified.js",
-    "on_exit": "rm browserified.js",
+    "src_files": [
+      "./dist/assets/bundle.js",
+      "./dist/assets/tests.js"
+    ],
     "launch_in_dev": [ "chrome" ]
 }

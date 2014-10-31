@@ -25,6 +25,7 @@ var paths = {
   css:    [ './src/styles/main.less' ],
   app_js: [ './src/main.js' ],
   js:     [ './src/**/*.js' ],
+  tests:  [ './src/__tests__/main.js' ],
 
   // paths to files in bower_components that should be copied to dist/assets/vendor
   vendor: [
@@ -96,6 +97,22 @@ gulp.task('js', function() {
       .pipe(gulp.dest('./dist/assets/'));
 });
 
+gulp.task('test', function() {
+  gulp.src(paths.tests)
+      .pipe(preprocess({
+        context: { 
+          NODE_ENV: 'development',
+          DEBUG: !argv.production
+        }
+      }))
+      .pipe(browserify({
+        transform: ['reactify', 'envify'],
+        debug : !argv.production
+      }))
+      .pipe(rename('tests.js'))
+      .pipe(gulp.dest('./dist/assets/'));
+});
+
 gulp.task('dev', ['build'], function() {
   var servers;
   servers = createServers(httpPort, 35729);
@@ -116,7 +133,7 @@ gulp.task('dev', ['build'], function() {
   });
 });
 
-gulp.task('build', ['js', 'css', 'copy', 'vendor', 'js']);
+gulp.task('build', ['js', 'css', 'copy', 'vendor', 'test']);
 
 gulp.task('default', ['build'], function() {
   // Give first-time users a little help
