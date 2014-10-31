@@ -1,7 +1,7 @@
 var React = require('react');
 
 var Other = React.createClass({
-  render() {
+  render: function() {
     return (
       <div>
         Other Page

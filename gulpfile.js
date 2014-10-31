@@ -102,6 +102,7 @@ gulp.task('default', ['build'], function() {
     gutil.log("* gulp clean        (rm /dist)");
     gutil.log("* gulp --production (production build)");
     gutil.log("* gulp dev          (build and run dev server)");
+    gutil.log("* gulp test         (run tests)");
     return gutil.log("**********************************************");
   }, 3000);
 });

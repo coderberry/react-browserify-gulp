@@ -2,7 +2,7 @@ var React = require('react')
   , Link  = require('react-router').Link;
 
 var App = React.createClass({
-  render() {
+  render: function() {
     return (
       <div>
         <h1>React QuickStart</h1>
