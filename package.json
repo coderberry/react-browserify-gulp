@@ -1,0 +1,17 @@
+{
+  "name": "react-browserify-gulp",
+  "version": "0.0.0",
+  "description": "Starter kit for React with Browserify and Gulp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Berry <cavneb@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "browserify": "^6.2.0",
+    "gulp": "^3.8.9",
+    "react": "^0.12.0",
+    "react-router": "^0.10.0"
+  }
+}
