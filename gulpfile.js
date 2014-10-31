@@ -1,5 +1,6 @@
-var browserify    = require('browserify')
+var browserify    = require('gulp-browserify')
   , gulp          = require('gulp')
+  , rename        = require('gulp-rename')
   , gutil         = require('gulp-util')
   , rev           = require('gulp-rev')
   , clean         = require('gulp-clean')
@@ -10,7 +11,9 @@ var browserify    = require('browserify')
   , sourcemaps    = require('gulp-sourcemaps')
   , minifyCSS     = require('gulp-minify-css')
   , tiny_lr       = require('tiny-lr')
-  , express       = require('express');
+  , express       = require('express')
+  , envify        = require('envify/custom')
+  , argv          = require('yargs').argv;
 
 
 /***************** Configs *****************/
@@ -18,9 +21,9 @@ var browserify    = require('browserify')
 var httpPort = 4000;
 
 var paths = {
-  css:    [ 'src/styles/main.less' ],
-  app_js: [ './src/routes.js' ],
-  js:     [ 'src/**/*.js' ],
+  css:    [ './src/styles/main.less' ],
+  app_js: [ './src/main.js' ],
+  js:     [ './src/**/*.js' ],
 
   // paths to files in bower_components that should be copied to dist/assets/vendor
   vendor: [
@@ -28,6 +31,7 @@ var paths = {
     'es5-shim/es5-shim.js'
   ]
 };
+
 
 /***************** Tasks *****************/
 
@@ -38,11 +42,11 @@ gulp.task('clean', function() {
 
 gulp.task('css', function() {
   return gulp.src(paths.css)
-             .pipe(gulp.env.production ? gutil.noop() : sourcemaps.init())
+             .pipe(argv.production ? gutil.noop() : sourcemaps.init())
              .pipe(less().on('error', gutil.log))
-             .pipe(gulp.env.production ? gutil.noop() : sourcemaps.write('./maps'))
-             .pipe(gulp.env.production ? minifyCSS() : gutil.noop())
-             .pipe(gulp.env.production ? rev() : gutil.noop())
+             .pipe(argv.production ? gutil.noop() : sourcemaps.write('./maps'))
+             .pipe(argv.production ? minifyCSS() : gutil.noop())
+             .pipe(argv.production ? rev() : gutil.noop())
              .pipe(gulp.dest('dist/assets'));
 });
 
@@ -58,18 +62,31 @@ gulp.task('vendor', function() {
 
 // Just copy over remaining assets to dist. Exclude the styles and scripts as we process those elsewhere
 gulp.task('copy', function() {
-  return gulp.src(['src/**/*', '!src/elements', '!src/elements/**/*', '!src/styles', '!src/styles/**/*', '!src/*.js'])
-             .pipe(gulp.dest('dist'));
+  return gulp.src([
+    'src/**/*',
+    '!src/elements',
+    '!src/elements/**/*',
+    '!src/config',
+    '!src/config/**/*',
+    '!src/lib',
+    '!src/lib/**/*',
+    '!src/styles',
+    '!src/styles/**/*',
+    '!src/*.js',
+    '!src/__tests__',
+    '!src/__tests__/**/*'
+  ]).pipe(gulp.dest('dist'));
 });
 
-// Our JS task. It will Browserify our code and compile React JSX files.
+// Basic usage
 gulp.task('js', function() {
-  // Browserify/bundle the JS.
-  browserify(paths.app_js)
-    .transform(reactify)
-    .bundle()
-    .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./dist/assets/'));
+  gulp.src(paths.app_js)
+      .pipe(browserify({
+        transform: ['reactify', 'envify'],
+        debug : !argv.production
+      }))
+      .pipe(rename('bundle.js'))
+      .pipe(gulp.dest('./dist/assets/'));
 });
 
 gulp.task('dev', ['build'], function() {
@@ -102,10 +119,10 @@ gulp.task('default', ['build'], function() {
     gutil.log("* gulp clean        (rm /dist)");
     gutil.log("* gulp --production (production build)");
     gutil.log("* gulp dev          (build and run dev server)");
-    gutil.log("* gulp test         (run tests)");
     return gutil.log("**********************************************");
   }, 3000);
 });
+
 
 /***************** Helpers *****************/
 
@@ -116,11 +133,20 @@ createServers = function(port, lrport) {
   lr.listen(lrport, function() {
     return gutil.log("LiveReload listening on", lrport);
   });
+
+
+  // server.start({
+  //   port: port,
+  //   directory: "./dist"
+  // });
+  // gutil.log("HTTP server listening on", port);
+  
   app = express();
   app.use(express["static"](path.resolve("./dist")));
   app.listen(port, function() {
     return gutil.log("HTTP server listening on", port);
   });
+
   return {
     lr: lr,
     app: app

@@ -1,7 +1,7 @@
-var React = require('react');
-var mergeInto = require('react/lib/mergeInto');
+var React = require('react')
+  , _ = require('lodash');
 
-module.exports = function(component, props, contextStubs) {
+module.exports = function(element, props, contextStubs) {
   var TestWrapper = React.createClass({
     childContextTypes: {
       currentPath: React.PropTypes.string,
@@ -21,7 +21,7 @@ module.exports = function(component, props, contextStubs) {
     },
 
     getChildContext: function() {
-      return mergeInto({
+      return _.extend({
         currentPath: '__STUB__',
         makePath: function() {},
         makeHref: function() { return '__STUB__'; },
@@ -40,10 +40,11 @@ module.exports = function(component, props, contextStubs) {
     },
 
     render: function() {
-      return component(props);
+      props.activeRouteHandler = function() {};
+      return element(props);
     }
   });
 
-  return TestWrapper();
+  return React.createElement(TestWrapper, {});
 };
 

@@ -1,3 +1,3 @@
 require('./helpers');
 
-require('../elements/__tests__/About.test.js');
+require('../elements/__tests__/App.test.js');

@@ -1,13 +1,13 @@
 var React = require('react');
 
-var Other = React.createClass({
+var Bar = React.createClass({
   render: function() {
     return (
       <div>
-        Other Page
+        <h2>Bar</h2>
       </div>
     )
   }
 });
 
-module.exports = Other;
+module.exports = Bar;
