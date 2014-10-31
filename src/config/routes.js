@@ -4,10 +4,10 @@ var React         = require('react')
   , Route         = Router.Route
   , Redirect      = Router.Redirect
   , NotFoundRoute = Router.NotFoundRoute
-  , App           = require('../elements/App')
-  , Foo           = require('../elements/Foo')
-  , Bar           = require('../elements/Bar')
-  , Index         = require('../elements/Index');
+  , App           = React.createFactory(require('../elements/App'))
+  , Foo           = React.createFactory(require('../elements/Foo'))
+  , Bar           = React.createFactory(require('../elements/Bar'))
+  , Index         = React.createFactory(require('../elements/Index'));
 
 module.exports = (
   <Routes>
