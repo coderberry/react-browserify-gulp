@@ -12,7 +12,7 @@
     "express": "^4.10.1",
     "lodash": "*",
     "react": "0.12.x",
-    "react-router": "0.10.1"
+    "react-router": "0.10.2"
   },
   "devDependencies": {
     "browserify": "^6.2.0",
