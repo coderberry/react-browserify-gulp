@@ -1,7 +1,5 @@
-var React  = require('react')
-  , RR     = require('react-router')
-  , Routes = RR.Routes
-  , Route  = RR.Route;
+var React  = require('react');
+var {Routes, Route, DefaultRoute} = require('react-router');
 
 var routes = (
   <Routes>

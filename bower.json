@@ -1,0 +1,19 @@
+{
+  "name": "react-browserify-gulp",
+  "version": "0.0.0",
+  "authors": [
+    "Eric Berry <cavneb@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "es5-shim": "~2.3.0"
+  }
+}

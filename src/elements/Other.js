@@ -10,4 +10,4 @@ var Other = React.createClass({
   }
 });
 
-module.exports = About;
+module.exports = Other;
