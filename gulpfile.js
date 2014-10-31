@@ -13,6 +13,7 @@ var browserify    = require('gulp-browserify')
   , tiny_lr       = require('tiny-lr')
   , express       = require('express')
   , envify        = require('envify/custom')
+  , preprocess    = require('gulp-preprocess')
   , argv          = require('yargs').argv;
 
 
@@ -81,6 +82,12 @@ gulp.task('copy', function() {
 // Basic usage
 gulp.task('js', function() {
   gulp.src(paths.app_js)
+      .pipe(preprocess({
+        context: { 
+          NODE_ENV: argv.production ? 'production' : 'development', 
+          DEBUG: !argv.production
+        }
+      }))
       .pipe(browserify({
         transform: ['reactify', 'envify'],
         debug : !argv.production
