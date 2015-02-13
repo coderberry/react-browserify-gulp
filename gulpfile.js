@@ -3,7 +3,7 @@ var browserify    = require('gulp-browserify')
   , rename        = require('gulp-rename')
   , gutil         = require('gulp-util')
   , rev           = require('gulp-rev')
-  , clean         = require('gulp-clean')
+  , rimraf        = require('gulp-rimraf')
   , source        = require('vinyl-source-stream')
   , reactify      = require('reactify')
   , less          = require('gulp-less')
@@ -39,7 +39,7 @@ var paths = {
 
 gulp.task('clean', function() {
   return gulp.src('dist', { read: false })
-             .pipe(clean());
+             .pipe(rimraf());
 });
 
 gulp.task('css', function() {
@@ -157,7 +157,6 @@ createServers = function(port, lrport) {
   lr.listen(lrport, function() {
     return gutil.log("LiveReload listening on", lrport);
   });
-
 
   // server.start({
   //   port: port,

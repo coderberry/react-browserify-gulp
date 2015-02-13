@@ -1,5 +1,7 @@
-var React = require('react')
-  , Link  = require('react-router').Link;
+var React        = require('react')
+  , Router       = require('react-router')
+  , RouteHandler = Router.RouteHandler
+  , Link         = Router.Link;
 
 var App = React.createClass({
   render: function() {
@@ -11,7 +13,7 @@ var App = React.createClass({
           <li><Link to="foo">Foo</Link></li>
           <li><Link to="bar">Bar</Link></li>
         </ul>
-        {this.props.activeRouteHandler()}
+        <RouteHandler/>
       </div>
     )
   }
